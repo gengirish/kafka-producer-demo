@@ -1,0 +1,125 @@
+# Kafka Producer with Error Handling - Implementation Task
+
+## Objective
+Create a robust Spring Boot service that acts as a Kafka producer with comprehensive error handling and asynchronous callback mechanisms.
+
+## Task Description
+Develop a Spring @Service class that demonstrates professional-grade Kafka message publishing capabilities. The implementation should showcase best practices for error handling, logging, and asynchronous processing in a distributed messaging environment.
+
+## Technical Requirements
+
+### Core Components
+1. **Spring @Service Class**: Create a service class annotated with `@Service`
+2. **KafkaTemplate Integration**: Utilize Spring's KafkaTemplate for message publishing
+3. **Asynchronous Error Handling**: Implement callback-based error handling using ListenableFuture
+4. **Comprehensive Logging**: Add detailed logging for both success and failure scenarios
+
+### Implementation Specifications
+
+#### 1. Service Class Structure
+- Class name: `KafkaMessageProducerService`
+- Package: `com.example.kafka.service`
+- Dependencies: KafkaTemplate, Logger
+
+#### 2. Core Method Requirements
+- Method name: `sendMessage(String topic, String key, Object message)`
+- Return type: `void` (asynchronous operation)
+- Parameters:
+  - `topic`: Target Kafka topic name
+  - `key`: Message key for partitioning
+  - `message`: Payload object to be sent
+
+#### 3. Error Handling Implementation
+- Use `ListenableFuture<SendResult<String, Object>>` returned by KafkaTemplate.send()
+- Implement `ListenableFutureCallback` with:
+  - `onSuccess()`: Log successful message delivery with metadata
+  - `onFailure()`: Log error details and implement retry logic consideration
+
+#### 4. Logging Requirements
+- Use SLF4J Logger
+- Success logs should include: topic, partition, offset, timestamp
+- Error logs should include: exception details, topic, key, retry information
+- Use appropriate log levels (INFO for success, ERROR for failures, DEBUG for detailed info)
+
+#### 5. Configuration Considerations
+- Assume Kafka configuration is externalized
+- Include proper exception handling for configuration issues
+- Consider timeout scenarios
+
+### Expected Deliverables
+
+#### 1. Main Service Class
+```java
+@Service
+public class KafkaMessageProducerService {
+    // Implementation with all required methods and error handling
+}
+```
+
+#### 2. Additional Components (if needed)
+- Custom exception classes for Kafka-specific errors
+- Message wrapper classes for structured payloads
+- Utility methods for message formatting
+
+#### 3. Documentation
+- JavaDoc comments for all public methods
+- Inline comments explaining error handling logic
+- README section explaining usage and configuration
+
+### Advanced Features (Bonus Points)
+1. **Retry Mechanism**: Implement exponential backoff for failed messages
+2. **Metrics Integration**: Add Micrometer metrics for monitoring
+3. **Message Serialization**: Handle different message types (JSON, Avro, etc.)
+4. **Dead Letter Queue**: Implement DLQ pattern for permanently failed messages
+5. **Transactional Support**: Add transactional message publishing capabilities
+
+### Testing Requirements
+1. **Unit Tests**: Test success and failure scenarios
+2. **Integration Tests**: Test with embedded Kafka
+3. **Mock Testing**: Mock KafkaTemplate for isolated testing
+4. **Error Simulation**: Test various failure scenarios
+
+### Code Quality Standards
+- Follow Spring Boot best practices
+- Implement proper dependency injection
+- Use meaningful variable and method names
+- Handle null checks and validation
+- Follow Java coding conventions
+
+### Sample Usage Scenario
+The service should be usable in a controller or another service like:
+```java
+@Autowired
+private KafkaMessageProducerService producerService;
+
+public void processOrder(Order order) {
+    producerService.sendMessage("order-events", order.getId(), order);
+}
+```
+
+### Skills Demonstrated
+- **Apache Kafka**: Understanding of topics, partitions, producers
+- **Spring for Kafka**: KafkaTemplate usage and configuration
+- **Asynchronous Programming**: Future-based programming with callbacks
+- **Error Handling**: Robust exception handling and logging
+- **Spring Framework**: Dependency injection and service layer patterns
+- **Logging**: Structured logging with appropriate levels
+- **Testing**: Unit and integration testing strategies
+
+### Evaluation Criteria
+1. **Functionality**: Does the code work as specified?
+2. **Error Handling**: Are all error scenarios properly handled?
+3. **Code Quality**: Is the code clean, readable, and well-structured?
+4. **Logging**: Are logs informative and appropriately leveled?
+5. **Best Practices**: Does the implementation follow Spring and Kafka best practices?
+6. **Documentation**: Is the code well-documented and self-explanatory?
+
+### Common Pitfalls to Avoid
+- Not handling KafkaTemplate send() failures
+- Blocking operations in callback methods
+- Insufficient logging for debugging
+- Not considering message serialization issues
+- Ignoring Kafka configuration errors
+- Missing null checks and validation
+
+This task tests your ability to create production-ready code that handles real-world scenarios in distributed systems with proper error handling and monitoring capabilities.
