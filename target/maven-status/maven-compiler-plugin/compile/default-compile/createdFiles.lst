@@ -1,5 +1,0 @@
-com\example\kafka\KafkaProducerDemo.class
-com\example\kafka\KafkaProducerDemo$MessageController.class
-com\example\kafka\KafkaProducerDemo$KafkaMessageProducerService.class
-com\example\kafka\KafkaProducerDemo$KafkaProducerConfig.class
-com\example\kafka\KafkaProducerDemo$KafkaMessageProducerService$MessageSendCallback.class
